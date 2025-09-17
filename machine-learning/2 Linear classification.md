@@ -96,3 +96,22 @@ $m_ \mathcal H (N) \leq N^ {d_{CV}} + 1$ 임을 이용하면 $d_{CV} = \infty$ �
 
 따라서 다음과 같은 VC generalizaiton bound 식을 이용해야 한다. 
 
+$$
+E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{8}{N} \ln \frac{4 m_ \mathcal H(2N)}{\delta}}
+$$
+
+with probability $\geq 1 - \delta$.
+
+이 식이 중요한 이유는 linear classification의 학습 "가능성"을 제시하기 때문이다. VC generalization bound에 의해 $\delta$ 만큼의 5% 용인을 제외하면 높은 확률로 다음이 성립한다.
+
+$$
+E_{out}(g) = E_{in}(g) + O \left( \sqrt{ \frac{d}{N} \ln{N}}    \right)
+$$
+
+따라서 데이터의 수 $N$이 충분히 크다면 $E_{out} \approx E_{in}$가 성립한다. 
+
+## Linearly seperable / inseperable
+
+우리의 큰 그림은 linear classification의 feasibility이고, 두 조건 중 $E_{out} \approx E_{in}$ 임을 밝혔으니 남은 $E_{in} \approx 0$ 만 확인하면 된다.
+
+
