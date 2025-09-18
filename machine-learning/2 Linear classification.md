@@ -108,10 +108,30 @@ $$
 E_{out}(g) = E_{in}(g) + O \left( \sqrt{ \frac{d}{N} \ln{N}}    \right)
 $$
 
-따라서 데이터의 수 $N$이 충분히 크다면 $E_{out} \approx E_{in}$가 성립한다. 
+따라서 데이터의 수 $N$이 충분히 크다면 $E_{out} \approx E_{in}$가 성립한다. 사실 이건 linear classification 뿐만 아니라 linear regression 등 모든 linear model에서 성립하는 식이다. 
 
-## Linearly seperable / inseperable
+## Linearly seperable / in-seperable
 
-우리의 큰 그림은 linear classification의 feasibility이고, 두 조건 중 $E_{out} \approx E_{in}$ 임을 밝혔으니 남은 $E_{in} \approx 0$ 만 확인하면 된다.
+우리의 큰 그림은 linear classification(model)의 feasibility이고, 두 조건 중 $E_{out} \approx E_{in}$ 임을 밝혔으니 남은 $E_{in} \approx 0$ 만 확인하면 된다. 
+
+Linear classification의 hypothesis는 다음과 같다.
+
+$$
+h(x) = \text{sign}(w^Tx)
+$$
+
+**(1) Linearly seperable**
+
+만약 데이터가 직선 하나를 그어서 분리 가능한 linearly seperable data 라면, hypothesis의 결과 $\pm 1$이 실제 값과 모두 같다. 따라서 in-sample error $E_{in}$이 0 이다. $E_{in}(w^*) = 0$ 인 $w^*$가 존재한다고 할 수 있다. 
+
+이러한 w를 찾는 알고리즘이 Perceptron Learning Algorithm(PLA) 이다. Time step $t$에 대해 misclassified data point $(x(t),y(t))$를 고르고 다음과 같이 $w$를 업데이트 하자. 
+
+$$
+
+$$
 
 
+
+**(2) Linearly in-seperable**
+
+직선으로 분리 가능하지 않거나 noise가 있는 경우, 즉 linearly seperable 하지 않은 경우에서도 최대한 0에 가깝게 줄여야 한다. 다음과 같은 
