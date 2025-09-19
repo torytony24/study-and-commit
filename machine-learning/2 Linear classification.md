@@ -124,14 +124,26 @@ $$
 
 만약 데이터가 직선 하나를 그어서 분리 가능한 linearly seperable data 라면, hypothesis의 결과 $\pm 1$이 실제 값과 모두 같다. 따라서 in-sample error $E_{in}$이 0 이다. $E_{in}(w^*) = 0$ 인 $w^*$가 존재한다고 할 수 있다. 
 
-이러한 w를 찾는 알고리즘이 Perceptron Learning Algorithm(PLA) 이다. Time step $t$에 대해 misclassified data point $(x(t),y(t))$를 고르고 다음과 같이 $w$를 업데이트 하자. 
+이러한 w를 찾는 알고리즘이 Perceptron Learning Algorithm(PLA) 이다. Time step $t$에 대해 misclassified data point $(x(t),y(t))$를 고르고 임의의 $w(0)$에서 시작해 다음과 같이 $w$를 업데이트 하자. 
 
 $$
-
+w(t+1) = w(t) + y(t)x(t)
 $$
 
+이를 반복하면 $w^*$에 점점 가까워진다고 한다. 증명은 나중에 해보자. (Learning From Data, Problem 1.3)
 
 
 **(2) Linearly in-seperable**
 
-직선으로 분리 가능하지 않거나 noise가 있는 경우, 즉 linearly seperable 하지 않은 경우에서도 최대한 0에 가깝게 줄여야 한다. 다음과 같은 
+직선으로 분리 가능하지 않거나 noise가 있는 경우, 즉 linearly seperable 하지 않은 경우에서도 최대한 0에 가깝게, $E_{in}$을 minimum으로 줄여야 한다.
+
+$$
+\min_{w \in \mathbb{R}^{d+1}} { \frac{1}{N} \sum_{n=1}^N \llbracket  \text{sign} (w^T x_n) \neq y_n   \rrbracket}
+$$
+
+$\text{sign}$과 $\llbracket.\rrbracket$ 때문에 최솟값을 찾기 쉽지 않다. 이는 pocket algorithm이라는 근사 방법을 사용한다. "pocket" 안에서 각 iteration 마다 PLA를 시행하는 것이다. 간단하게 ~~~~~~~~ 설명. 이러한 방법이 있고, $E_{in}$ 최소화가 가능하다는 것만 알고 넘어가자. 
+
+결론적으로 linearly seperable 한 경우와 seperable 하지 않은 경우 모두에 대해 $E_{in}$을 0으로 만들거나 혹은 0에 가깝게 만들 수 있음을 확인했다. Linear classification은 feasible 하다!
+
+## Linear regression
+
