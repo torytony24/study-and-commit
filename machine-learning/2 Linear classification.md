@@ -1,4 +1,4 @@
-# Linear Classification
+# Linear classification
 
 Linear classification은 $x_1, x_2, \cdots \in \mathcal{X}$ 에 대해 hypothesis $h \in \mathcal{H}$ 가 있어서 $h(x_i)$ 를 $\pm1$ 로 분류하는 작업을 의미한다. 
 
@@ -141,9 +141,8 @@ $$
 \min_{w \in \mathbb{R}^{d+1}} { \frac{1}{N} \sum_{n=1}^N \llbracket  \text{sign} (w^T x_n) \neq y_n   \rrbracket}
 $$
 
-$\text{sign}$과 $\llbracket.\rrbracket$ 때문에 최솟값을 찾기 쉽지 않다. 이는 pocket algorithm이라는 근사 방법을 사용한다. "pocket" 안에서 각 iteration 마다 PLA를 시행하는 것이다. 간단하게 ~~~~~~~~ 설명. 이러한 방법이 있고, $E_{in}$ 최소화가 가능하다는 것만 알고 넘어가자. 
+$\text{sign}$과 $\llbracket.\rrbracket$ 때문에 최솟값을 찾기 쉽지 않다(실제로 NP-hard 이다). 따라서 pocket algorithm이라는 근사 방법을 사용한다. "pocket" 안에서 각 iteration 마다 PLA를 시행해 최적의 $w$로 업데이트 하는 것이다. 
+
+먼저 $\hat w = w(0)$로 초기값을 설정한다. 각 iteration $t$에 대해 PLA를 실행해 $w(t+1)$를 구하고 대입해 $E_{in}(w(t+1))$를 구한다. 만약 구한 $E_{in}$ 값이 더 작아졌다면 $\hat w = w(t+1)$로 업데이트 한다. 이 과정을 반복하면 $E_{in}$이 최소가 된다.
 
 결론적으로 linearly seperable 한 경우와 seperable 하지 않은 경우 모두에 대해 $E_{in}$을 0으로 만들거나 혹은 0에 가깝게 만들 수 있음을 확인했다. Linear classification은 feasible 하다!
-
-## Linear regression
-
