@@ -112,7 +112,7 @@ $$
 
 ## Linearly seperable / in-seperable
 
-우리의 큰 그림은 linear classification(model)의 feasibility이고, 두 조건 중 $E_{out} \approx E_{in}$ 임을 밝혔으니 남은 $E_{in} \approx 0$ 만 확인하면 된다. 
+우리의 큰 그림은 linear classification의 feasibility이고, 두 조건 중 $E_{out} \approx E_{in}$ 임을 밝혔으니 남은 $E_{in} \approx 0$ 만 확인하면 된다. 
 
 Linear classification의 hypothesis는 다음과 같다.
 
