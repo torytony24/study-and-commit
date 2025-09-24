@@ -66,6 +66,20 @@ $$
 
 ## Feasibility
 
-Linear regression의 feasibility 또한 generalization bound를 이용해 확인할 수 있다. 
+Linear regression의 feasibility 또한 확인할 수 있다. Generalization bound의 식은 다음과 같다. 
 
-TBA
+$$
+E_{out}(g) = E_{in}(g) + O \left( \sqrt{ \frac{d}{N} \ln{N}} \right)
+$$
+
+Linear regresssion의 경우 여기서 나아가 $E_{in}$과 $E_{out}$을 계산하는 식을 구할 수 있다(Learning From Data, Exercise 3.4). 결과만 이용하자.
+
+$$
+E_{in} = 
+$$
+
+$$
+E_{out} = 
+$$
+
+분산 $\sigma^2$과 비교하면 
