@@ -14,7 +14,7 @@ $E_{in}$은 N개 뽑아서 오차 계산한 모평균, $E_{out}$은 실제 오�
 
 ## Generalization error
 
-tolerance level $\delta$를 정의하자. "이 정도 범위까지 bound는 용인하자"의 의미를 가지고 있다. 
+tolerance level $\delta$를 정의하자. "이 정도 범위까지 bound는 용인하자"의 의미를 가지고 있다. 직관적으로 해석하면 데이터의 수 $N$이 증가하면 $E_{in}$과 $E_{out}$이 가까워지는 것을 볼 수 있다. 
 
 $$
 E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N} \ln \frac{2M}{\delta}}
@@ -108,7 +108,7 @@ $$
 E_{out}(g) = E_{in}(g) + O \left( \sqrt{ \frac{d}{N} \ln{N}}    \right)
 $$
 
-따라서 데이터의 수 $N$이 충분히 크다면 $E_{out} \approx E_{in}$가 성립한다. 사실 이건 linear classification 뿐만 아니라 linear regression 등 모든 linear model에서 성립하는 식이다. 
+따라서 데이터의 수 $N$이 충분히 크다면 $E_{out} \approx E_{in}$가 성립한다. 우리의 직관인 데이터의 수가 늘어날 수록 train data와 test data 사이의 오차가 줄어든다는 것과 일치한다. 사실 이건 linear classification 뿐만 아니라 linear regression 등 모든 linear model에서 성립하는 식이다. 
 
 ## Linearly seperable / in-seperable
 

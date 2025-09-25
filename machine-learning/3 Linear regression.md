@@ -75,11 +75,15 @@ $$
 Linear regresssion의 경우 여기서 나아가 $E_{in}$과 $E_{out}$을 계산하는 식을 구할 수 있다(Learning From Data, Exercise 3.4). 결과만 이용하자.
 
 $$
-E_{in} = 
+E_{in} = \sigma^2 \left( 1 - \frac{d+1}{N} \right) < \sigma^2
 $$
 
 $$
-E_{out} = 
+E_{out} = \sigma^2 \left( 1 + \frac{d+1}{N} \right) > \sigma ^2
 $$
 
-분산 $\sigma^2$과 비교하면 
+<p align="center">
+<img src="Images/3-1.png" width="50%" height="50%">
+</p>
+
+$E_{in}$은 noise까지 학습해 분산이 예측값보다 작게(overfitting) 된다. 반면 $E_{out}$은 $w$가 test data의 결과이기 때문에 예측값보다 분산이 클 수 밖에 없다. 이 때 in과 out의 차이 error 오더를 보면 $O(2(d+1)/N)$ 이므로 데이터의 수 $N$이 증가하면 gap이 0으로 수렴한다. 따라서 데이터 수가 충분히 클 때 예측값과 실제값이 일치하므로 linear regression의 학습이 feasible함을 알 수 있다. 
