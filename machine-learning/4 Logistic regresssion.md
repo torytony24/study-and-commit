@@ -82,7 +82,26 @@ $$
 P(y_1|x_1)P(y_2|x_2)\cdots P(y_N|x_N) = \prod^N_{n=1}P(y_n|x_n)
 $$
 
-$-$를 붙여 minimize 하는 식으로 만들고, 계산의 편의를 위해 $\ln$을 붙이고 $N$으로 나누면 다음과 같다.
+$-$를 붙여 minimize 하는 식으로 만들고, 계산의 편의를 위해 $\ln$을 붙이고 $N$으로 나눈다. 앞에서 구한 $P(y|x)$에 대한 식을 대입하면 다음과 같이 유도할 수 있다.
 
+$$
+\begin{split}
+E_{in}(w) &= -\frac{1}{N} \ln{\left( \prod^N_{n=1}P(y_n|x_n) \right)}\\
+          &= \frac{1}{N} \sum_{n=1}^N \ln{\frac{1}{P(y_n|x_n)}}\\
+          &= \frac{1}{N} \sum^N_{n=1} \ln{\left( 1 + e^{-y_n w^T x_n} \right)}
+\end{split}
+$$
 
+## Cross entropy
 
+두 번째 유도 방법은 cross entropy의 정의를 이용하는 것이다. 둘 중 하나의 값을 내보내는 binary outcome 확률분포(PMF) $\{p,1-p\}$와 $\{q,1-q\}$가 있을 때, 둘의 "차이 함수"라고 볼 수 있는 cross entropy는 다음과 같다.
+
+$$
+p \log{\frac{1}{q}} + (1-p)\log{\frac{1}{1-q}}
+$$
+
+이 식을 어떻게 사용할까? Data point $(x_n,y_n)$에 대해 $p = \llbracket y_n = +1 \rrbracket$, $q=h(x_n)$로 설정한다. 즉 $p$에 대한 확률분포가 실제값이고 이를 관측해 $q$에 대한 분포로 fitting 한다. 이 차이 함수를 minimize하면 예측값이 실제값에 가까워져 학습이 가능하다. 이를 모든 data point에 대해 합치면 원하는 식이 나온다.
+
+$$
+
+$$
