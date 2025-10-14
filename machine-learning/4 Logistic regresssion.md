@@ -104,8 +104,20 @@ $$
 p \log{\frac{1}{q}} + (1-p)\log{\frac{1}{1-q}}
 $$
 
-이 식을 어떻게 사용할까? Data point $(x_n,y_n)$에 대해 $p = \llbracket y_n = +1 \rrbracket$, $q=h(x_n)$로 설정한다. 즉 $p$에 대한 확률분포가 실제값이고 이를 관측해 $q$에 대한 분포로 fitting 한다. 이 차이 함수를 minimize하면 예측값이 실제값에 가까워져 학습이 가능하다. 이를 모든 data point에 대해 합치면 원하는 식이 나온다.
+이 식을 어떻게 사용할까? Data point $(x_n,y_n)$에 대해 $p = \llbracket y_n = +1 \rrbracket$, $q=h(x_n)$로 설정한다. 즉 $p$에 대한 확률분포가 실제값이고 이를 관측해 $q$에 대한 분포로 fitting 한다. 이 차이 함수를 minimize하면 예측값이 실제값에 가까워져 학습이 가능하다. 이를 모든 data point에 대해 합친 값이 cross entropy loss이다.
 
 $$
+E_{in}(w) = \sum_{n=1}^N \left\{ \llbracket y_n = +1 \rrbracket \log{\frac{1}{h(x_n)}} + \llbracket y_n = -1 \rrbracket \log{\frac{1}{1-h(x_n)}}   \right\}
+$$
+
+이 cross entropy loss를 최소화하는 작업이 첫 번째 방법인 maximum likelyhood와 동치여야 한다.
 
 $$
+\begin{split}
+E_{in}(w) &= -\log \left\{ \prod_{n=1}^N P(y_n | x_n)  \right\} \\
+          &=  -\log \left\{ \prod_{n=1}^N h(x_n)^{\llbracket y_n = +1 \rrbracket} (1-h(x_n))^{\llbracket y_n = -1 \rrbracket}  \right\} \\
+          &= \sum_{n=1}^N \left\{ \llbracket y_n = +1 \rrbracket \log{\frac{1}{h(x_n)}} + \llbracket y_n = -1 \rrbracket \log{\frac{1}{1-h(x_n)}}   \right\}
+\end{split}
+$$
+
+정리하면 $P(y|x)$에 $-\log{\prod}$를 해서 likelyhood를 계산하면 cross entropy 꼴이 되어 근본적으로 같은 error measure임을 확인할 수 있다.
