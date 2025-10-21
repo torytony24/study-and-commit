@@ -81,3 +81,40 @@ $$
 
 [[사진]]
 
+Output layer와 같은 방법으로 learning rule을 계산한다.
+
+$$
+\Delta w_{ji} = - \eta \cdot \frac{\partial \mathcal{E}}{\partial w_{ji}}
+$$
+
+$$
+\frac{\partial \mathcal{E}}{\partial w_{ji}} = \frac{\partial \mathcal{E}}{\partial s_j} \cdot x_i = \delta_j \cdot x_i
+$$
+
+Delta error $\delta_j$는 앞의 output layer의 결과와 합쳐져 다음과 같이 계산된다.
+
+$$
+\delta_j = \frac{\partial \mathcal{E}}{\partial s_j} = \sigma ' (s_j) \cdot \sum_k w_{kj}\delta_k
+$$
+
+정리하면 다음과 같다.
+
+$$
+\Delta w_{kj} = - \eta \cdot \delta_j \cdot x_i
+$$
+
+## Algorithm
+
+다음과 같은 알고리즘으로 back propagation을 시행한다.
+
+- 하나의 input $x_i$ 선택
+  - forward: $z$, $h$ 계산
+  - backward: $\delta$ 계산 $\rightarrow$ 모든 $\partial \mathcal{E} / \partial w_{ij}$ 계산 가능
+  - weight update
+- 이 과정을 여러 번 반복
+
+여기서 핵심 단계는 backward의 $\partial \mathcal{E} / \partial w_{ij}$ 계산 과정이다. 다이어그램으로 나타내면 다음과 같다.
+
+[[사진]]
+
+ㅇ
