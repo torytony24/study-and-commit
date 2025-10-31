@@ -113,8 +113,34 @@ $$
   - weight update
 - 이 과정을 여러 번 반복
 
-여기서 핵심 단계는 backward의 $\partial \mathcal{E} / \partial w_{ij}$ 계산 과정이다. 다이어그램으로 나타내면 다음과 같다.
+Forward 과정은 weight들을 곱하고 더해서 sigmoid에 통과시키는 것의 반복이다. Backward는 weight 수정이다. 여기서 핵심 단계는 weight의 수정 정도, sensitivity factor인 $\partial \mathcal{E} / \partial w_{ij}$ 계산 과정이다. 
+
+$$
+\Delta w = - \eta \cdot \frac{\partial \mathcal E}{\partial w}
+$$
+
+다이어그램으로 나타내면 다음과 같다.
 
 [[사진]]
 
-ㅇ
+단계별로 풀어서 보자.
+
+Sensitivity factor는 입력값 $x_i$에 $\delta_j$만큼 곱한 값이다. 
+
+$$
+\frac{\partial \mathcal E}{\partial w} = \delta_j \cdot x_i
+$$
+
+이 $\delta_j$는 이후 layer들까지 다 계산된 weight와 delta 값들을 이용해 역으로 계산된다.
+
+$$
+\delta_j = \left( \sum_k \delta_k \cdot w_{kj} \right) \cdot \sigma'(s_j)
+$$
+
+$w_{kj}$는 다시 sensitivity factor를 이용해 수정되며, 이는 입력값 $z_j$에 $\delta_k$만큼 곱한 값이다. Layer의 수 만큼 역으로 계속 수정된다.
+
+## Vanishing gradient problem
+
+이는 weight들을 뒤에서부터 하나씩 수정하는 좋은 알고리즘이지만 한 가지 문제가 있다. Activation function(여기서는 sigmoid)에 들어가는 값이 매우 크거나 작은 경우에도 작동해야 한다. 하지만 sigmoid는 미분한 값이 양 끝단에서 0으로 사라진다. 이러한 이유로 사라지지 않는 ReLU 함수를 activation function으로 많이 사용한다.
+
+[[사진]]
