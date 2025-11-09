@@ -35,7 +35,7 @@ indices.from_numpy(faces.flatten().astype(np.int32))
 edges.from_numpy(unique_edges.astype(np.int32))
 
 #fix points for debugging
-fixnum = 80
+fixnum = 56
 fix = ti.Vector.field(3, dtype=ti.f32, shape=fixnum)
 @ti.kernel
 def f():
