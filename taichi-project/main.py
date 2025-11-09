@@ -3,17 +3,18 @@ import taichi.math as tm
 import trimesh
 import numpy as np
 
-ti.init(arch=ti.cpu)
+ti.init(arch='cpu')
 
 n_itr = 128
 dt = 4e-2 / n_itr
 substeps = int(1 / 60 // dt)
+solver_itr = 4
 
 gravity = ti.Vector([0, -9.8, 0])
 
 mesh = trimesh.load('taichi-project/clothMesh.obj', process=False)
 
-vertices = mesh.vertices
+vertices = mesh.vertices.astype(np.float32)
 faces = mesh.faces
 unique_edges = mesh.edges_unique
 
@@ -46,49 +47,76 @@ f()
 @ti.kernel
 def initialize():
     for i in range(n):
-        v[i] = [0.0, 0.0, 0.0]
-        w[i] = 1.0
+        v[i] = tm.vec3(0.0)
+        w[i] = 500.0
+        p[i] = tm.vec3(0.0)
     for j in range(num_edges):
         node1, node2 = edges[j]
-        edge_length[j] = ti.math.distance(x[node1], x[node2])
-
-initialize()
+        edge_length[j] = tm.distance(x[node1], x[node2])
 
 @ti.kernel
-def substep():
-    for i in range(n):
-        v[i] += dt * w[i] * gravity
+def damp_velocity():
+    pass
 
-    # damp velocities here
-
-    for i in range(n):
-        p[i] = x[i] + dt * v[i]
-
-    # generate collision constraints here
-
-    # project constraints here
+@ti.kernel
+def stretch_constraint():
+    ti.loop_config(parallelize=True)
     for j in range(num_edges):
         node1, node2 = edges[j]
         disp = p[node1] - p[node2]
-        length = ti.math.length(disp)
+        length = tm.length(disp)
         d = edge_length[j]
         s = 1.0 / (w[node1] + w[node2]) * (length - d) * disp / length
         p[node1] += - w[node1] * s
         p[node2] += + w[node2] * s
 
+@ti.kernel
+def bend_constraint():
+    pass
 
+@ti.kernel
+def update_velocity():
+    ti.loop_config(parallelize=True)
+    for i in range(n):
+        v[i] += dt * w[i] * gravity
+
+@ti.kernel
+def calculate_position():
+    ti.loop_config(parallelize=True)
+    for i in range(n):
+        p[i] = x[i] + dt * v[i]
+
+@ti.kernel
+def update_position():
+    ti.loop_config(parallelize=True)
     for i in range(n):
         v[i] = (p[i] - x[i]) / dt
         x[i] = p[i]
-
-    # velocity update here
 
 @ti.kernel
 def fix_points():
     for i in range(fixnum):
         x[i] = fix[i]
+        v[i] = tm.vec3(0.0)
 
 
+
+def substep():
+    update_velocity()
+
+    #damp_velocity()
+
+    calculate_position()
+
+    # generate collision constraints here
+
+    # project constraints here
+    for _ in range(solver_itr):
+        stretch_constraint()
+
+    update_position()
+
+    # velocity update here
 
 
 def main():
@@ -99,10 +127,11 @@ def main():
     camera = ti.ui.Camera()
 
     current_t = 0.0
+    initialize()
 
     while window.running:
 
-        for i in range(substeps):
+        for _ in range(substeps):
             substep()
             fix_points()
             current_t += dt
@@ -124,13 +153,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
