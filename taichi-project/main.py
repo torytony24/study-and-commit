@@ -26,6 +26,8 @@ x = ti.Vector.field(3, dtype=ti.f32, shape=n)
 v = ti.Vector.field(3, dtype=ti.f32, shape=n)
 w = ti.field(dtype=ti.f32, shape=n)
 p = ti.Vector.field(3, dtype=ti.f32, shape=n)
+r = ti.Vector.field(3, dtype=ti.f32, shape=n)
+r_mat = ti.Matrix.field(3, 3, dtype=ti.f32, shape=n)
 
 indices = ti.field(int, shape=num_faces * 3)
 edges = ti.Vector.field(2, dtype=int, shape=num_edges)
@@ -36,7 +38,8 @@ indices.from_numpy(faces.flatten().astype(np.int32))
 edges.from_numpy(unique_edges.astype(np.int32))
 
 #fix points for debugging
-fixnum = 56
+#fixnum = 56  # horizontal
+fixnum = 111  # vertical
 fix = ti.Vector.field(3, dtype=ti.f32, shape=fixnum)
 @ti.kernel
 def f():
@@ -49,14 +52,41 @@ def initialize():
     for i in range(n):
         v[i] = tm.vec3(0.0)
         w[i] = 500.0
-        p[i] = tm.vec3(0.0)
     for j in range(num_edges):
         node1, node2 = edges[j]
         edge_length[j] = tm.distance(x[node1], x[node2])
 
 @ti.kernel
 def damp_velocity():
-    pass
+    x_cm = tm.vec3(0.0)
+    v_cm = tm.vec3(0.0)
+    m_total = 0.0
+    for i in range(n):
+        x_cm += x[i] / w[i]
+        v_cm += v[i] / w[i]
+        m_total += 1.0 / w[i]
+    x_cm /= m_total
+    v_cm /= m_total
+
+    for i in range(n):
+        r[i] = x[i] - x_cm
+        r_mat[i] = ti.Matrix([[0, -r[i][2], r[i][1]],
+                              [r[i][2], 0, -r[i][0]],
+                              [-r[i][1], r[i][0], 0] ])
+    
+    L = tm.vec3(0.0)
+    for i in range(n):
+        L += tm.cross(r[i], v[i] / w[i])
+
+    I = tm.mat3(0.0)
+    for i in range(n):
+        I += r_mat[i] @ r_mat[i].transpose() / w[i]
+    
+    w = I.inverse() @ L
+    k_damping = 0.01
+    for i in range(n):
+        v[i] += k_damping * (v_cm + tm.cross(w, r[i]) - v[i])
+
 
 @ti.kernel
 def stretch_constraint():
@@ -103,14 +133,11 @@ def fix_points():
 
 def substep():
     update_velocity()
-
-    #damp_velocity()
-
+    damp_velocity()
     calculate_position()
 
     # generate collision constraints here
 
-    # project constraints here
     for _ in range(solver_itr):
         stretch_constraint()
 
