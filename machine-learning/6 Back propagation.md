@@ -37,7 +37,9 @@ $$
 
 MLP가 어떻게 생겼는지 보자. 기본의 linear model들은 input $x$들에 대해 weights가 적용되어 output $h$가 나왔는데, MLP의 경우 hidden layer가 추가된다. 
 
-[[사진]]
+<p align="center">
+<img src="Images/6-1.png" width="80%" height="80%">
+</p>
 
 Hidden과 output 사이를 output layer, Input과 hidden 사이를 hidden layer(input layer)라고 한다. 여기에 gradient descent method를 어떻게 사용할까? Gradient descent는 예측값과 실제값의 차이인 error로부터 weight를 조정하는 과정이다. MLP의 output과 target을 비교해 error를 계산하고 그 앞 layer의 weight들을 조정하고, 더 앞 layer의 weight를 계속 조정해서 "뒤에서 앞으로" 전파시키는 방법을 back propagation이라고 한다.
 
@@ -45,7 +47,9 @@ Hidden과 output 사이를 output layer, Input과 hidden 사이를 hidden layer(
 
 뒤쪽 output layer를 먼저 살펴보자.
 
-[[사진]]
+<p align="center">
+<img src="Images/6-2.png" width="80%" height="80%">
+</p>
 
 Neural net output $h_k$에다 correct output $y_k$에 $-1$를 곱하고 더해 error signal $e_k$를 내보낸다. $h_k$는 각 $z_j$에 weight $w_{kj}$로 선형결합한 $s_k$를 softmax function에 통과시킨 결과다. 
 
@@ -79,7 +83,9 @@ $$
 
 다음은 그 앞의 hidden layer이다. 
 
-[[사진]]
+<p align="center">
+<img src="Images/6-3.png" width="80%" height="80%">
+</p>
 
 Output layer와 같은 방법으로 learning rule을 계산한다.
 
@@ -121,7 +127,9 @@ $$
 
 다이어그램으로 나타내면 다음과 같다.
 
-[[사진]]
+<p align="center">
+<img src="Images/6-4.png" width="80%" height="80%">
+</p>
 
 단계별로 풀어서 보자.
 
@@ -143,4 +151,6 @@ $w_{kj}$는 다시 sensitivity factor를 이용해 수정되며, 이는 입력�
 
 이는 weight들을 뒤에서부터 하나씩 수정하는 좋은 알고리즘이지만 한 가지 문제가 있다. Activation function(여기서는 sigmoid)에 들어가는 값이 매우 크거나 작은 경우에도 작동해야 한다. 하지만 sigmoid는 미분한 값이 양 끝단에서 0으로 사라진다. 이러한 이유로 사라지지 않는 ReLU 함수를 activation function으로 많이 사용한다.
 
-[[사진]]
+<p align="center">
+<img src="Images/6-5.png" width="80%" height="80%">
+</p>
