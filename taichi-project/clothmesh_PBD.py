@@ -25,7 +25,7 @@ n = len(vertices)
 num_faces = len(faces)
 num_edges = len(unique_edges)
 
-# This function is build with GPT-5
+# This function is built with GPT-5
 def build_other_nodes():
     vertex_faces = [[] for _ in range(n)]
     for fi, (a, b, c) in enumerate(faces):
@@ -108,7 +108,6 @@ def initialize():
         p4 = x[node4] - x[node1]
         p2p3 = tm.cross(p2, p3)
         len_p2p3 = tm.length(p2p3)
-        if j==1: print(len_p2p3)
         n1 = p2p3 / len_p2p3
         p2p4 = tm.cross(p2, p4)
         len_p2p4 = tm.length(p2p4)
@@ -172,11 +171,9 @@ def bending_constraint():
 
         p2p3 = tm.cross(p2, p3)
         len_p2p3 = tm.length(p2p3)
-        if len_p2p3 < 1e-6: continue
         n1 = p2p3 / len_p2p3
         p2p4 = tm.cross(p2, p4)
         len_p2p4 = tm.length(p2p4)
-        if len_p2p4 < 1e-6: continue
         n2 = p2p4 / len_p2p4
         d = tm.clamp(n1.dot(n2), -1, 1)
 
@@ -234,7 +231,7 @@ def substep():
 
     update_position()
 
-    # velocity update here
+    # velocity update here: friction
 
 
 def main():
@@ -255,6 +252,7 @@ def main():
             current_t += dt
 
         camera.position(0.0, 50.0, 100.0)
+        #camera.position(0.0, 1.0, 1.0)
         camera.lookat(0.0, 0.0, 0.0)
 
         #camera.projection_mode(ti.ui.ProjectionMode.Perspective)
