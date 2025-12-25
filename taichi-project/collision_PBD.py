@@ -256,13 +256,13 @@ def main():
     current_t = 0.0
 
     # create and initialize objects
-    cloth_mesh = trimesh.load('taichi-project/clothMesh.obj', process=False)
+    cloth_mesh = trimesh.load('clothMesh.obj', process=False)
     # horizontal 56 / 90 deg 111
     cloth_fixed_points = list(range(56)) + list(range(150,166))
     cloth_obj = Object(cloth_mesh, is_rigid=False, point_indices_to_fix=cloth_fixed_points)
     cloth_obj.initialize()
 
-    bunny_mesh = trimesh.load('taichi-project/bunny.obj', process=False)
+    bunny_mesh = trimesh.load('bunny.obj', process=False)
     bunny_mesh.vertices *= 200.0
     bunny_mesh.vertices += [0.0, -25.0, 0.0]
     bunny_obj = Object(bunny_mesh, is_rigid=True)

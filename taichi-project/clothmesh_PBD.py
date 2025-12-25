@@ -15,7 +15,7 @@ k_damping = 0.1
 k_stretching = 1.0
 k_bending = 0.1
 
-mesh = trimesh.load('taichi-project/clothMesh.obj', process=False)
+mesh = trimesh.load('clothMesh.obj', process=False)
 
 vertices = mesh.vertices.astype(np.float32)
 faces = mesh.faces
